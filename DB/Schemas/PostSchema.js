@@ -1,12 +1,26 @@
 const mongoose = require("mongoose");
 
 const PostSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String
+  },
 
-  description: String,
+  description: {
+    type: String
+  },
 
-  content: String
+  content: {
+    type: String
+  },
+
+  username: {
+    type: String
+  },
+
+  createdAt: {
+    type: Date,
+    default: new Date()
+  }
 });
-
 
 module.exports = PostSchema;

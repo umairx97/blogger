@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/umairx97/blogger#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "express-edge": "^1.0.0",
-    "mongoose": "^5.5.7"
+    "mongoose": "^5.5.7",
+    "morgan": "^1.9.1"
   }
 }
