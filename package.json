@@ -1,0 +1,24 @@
+{
+  "name": "blogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umairx97/blogger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umairx97/blogger/issues"
+  },
+  "homepage": "https://github.com/umairx97/blogger#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-edge": "^1.0.0"
+  }
+}
