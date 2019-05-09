@@ -24,23 +24,51 @@ app.use(cookieParser());
 
 app.set("views", `${__dirname}/views`);
 
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", async (req, res) => {
+
+  const posts = await Post.find({})
+
+  res.render("index", { 
+    posts
+  });
 });
+
+
 
 app.get("/about", (req, res) => {
   res.render("about");
 });
 
+
+
+
 app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-app.get("/post", (req, res) => {
-  res.render("post");
+
+
+
+app.get("/post/:id", async (req, res) => {
+
+  const post = await Post.findById(req.params.id)
+  res.render("post", { 
+    post
+  });
 });
 
-app.post("/post/store", (req, res) => {
+
+
+
+
+app.get("/posts/new", (req, res) => {
+  res.render("create");
+});
+
+
+
+
+app.post("/posts/store", (req, res) => {
 
   Post.create(req.body, (err, post) => {
     if (err) {
@@ -51,13 +79,6 @@ app.post("/post/store", (req, res) => {
   });
 
 });
-
-
-
-app.get("/post/new", (req, res) => {
-  res.render("create");
-});
-
 
 
 const PORT = process.env.PORT || 4000;

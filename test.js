@@ -6,18 +6,18 @@ mongoose.connect("mongodb://localhost:27017/nodeBlog", {
   useCreateIndex: true
 });
 
-// Post.create({
-//   title: "Nodejs Post",
+Post.create({
+  title: "Nodejs Post",
 
-//   description: "This is description about the post",
+  description: "This is description about the post",
 
-//   content: "Lorem ipsum dolor sit amet, consectur"
+  content: "Lorem ipsum dolor sit amet, consectur"
 
-// }, (err, doc) => {
-//     console.log('err', err)
-//     console.log('doc', doc)
+}, (err, doc) => {
+    console.log('err', err)
+    console.log('doc', doc)
 
-// })
+})
 
 // const getData = async () => {
 //   try {
