@@ -1,6 +1,18 @@
 const express = require("express");
 const app = express();
 const expressEdge = require("express-edge");
+const mongoose = require('mongoose')
+
+
+mongoose.connect('mongodb://localhost:27017/nodeBlog', {useNewUrlParser: true, useCreateIndex: true,}); 
+
+
+
+// Models
+const { Post } = require('./DB/Models');
+
+
+
 
 const path = require("path");
 app.use(express.static("public"));
