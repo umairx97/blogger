@@ -6,6 +6,9 @@ const logger = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const fileUpload = require('express-fileupload')
+
+
 
 mongoose.connect("mongodb://localhost:27017/nodeBlog", {
   useNewUrlParser: true,
@@ -21,8 +24,8 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 app.set("views", `${__dirname}/views`);
+app.use(fileUpload())
 
 app.get("/", async (req, res) => {
 
@@ -68,20 +71,34 @@ app.get("/posts/new", (req, res) => {
 
 
 
-app.post("/posts/store", (req, res) => {
+app.post("/posts/store",  (req, res) => {
 
-  Post.create(req.body, (err, post) => {
+  const { image } = req.files
+
+
+
+  image.mv(path.resolve(__dirname, `public/posts/${image.name}`), (err) => {  
+    
+    
     if (err) {
-      console.log(err);
+      return res.status(500).send(err);
     }
-
-    res.redirect("/");
-  });
-
+      Post.create(req.body, (err, post) => {
+        if (err) {
+          console.log(err);
+        }
+        res.redirect("/");
+        
+      });
+    });
 });
 
 
+
+
 const PORT = process.env.PORT || 4000;
+
+
 app.listen(PORT, () => {
   console.log(`The server is running at ${PORT}`);
 });
