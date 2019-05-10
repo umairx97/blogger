@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const PostSchema = mongoose.Schema({
+  username: {
+    type: String
+  },
+
   title: {
     type: String
   },
@@ -13,9 +17,9 @@ const PostSchema = mongoose.Schema({
     type: String
   },
 
-  username: {
+  image: { 
     type: String
-  },
+  }, 
 
   createdAt: {
     type: Date,

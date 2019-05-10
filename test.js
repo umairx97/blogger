@@ -6,18 +6,38 @@ mongoose.connect("mongodb://localhost:27017/nodeBlog", {
   useCreateIndex: true
 });
 
-Post.create({
-  title: "Nodejs Post",
+/**
+|========================================
+| CREATE A TEST POST 
+|========================================
+*/
 
-  description: "This is description about the post",
+Post.create(
+  {
+    username: "umairx97",
 
-  content: "Lorem ipsum dolor sit amet, consectur"
+    title: "How to become a MERN developer in 6 Months",
 
-}, (err, doc) => {
-    console.log('err', err)
-    console.log('doc', doc)
+    subtitle: "Learning fast and learning good",
 
-})
+    content:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam",
+
+    image: "/uploads/1.png"
+
+    // Date will be added automatically when the post is sent to server
+  },
+  (err, doc) => {
+    console.log("err", err);
+    console.log("doc", doc);
+  }
+);
+
+/**
+|========================================
+| GET POSTS FROM DATABASE
+|========================================
+*/
 
 // const getData = async () => {
 //   try {
@@ -30,13 +50,10 @@ Post.create({
 
 // getData();
 
-
-// Post.findById('5cd46a1ab4238a1b0adf9b73', (err, doc) => { 
-//     if(err){ 
+// Post.findById('5cd46a1ab4238a1b0adf9b73', (err, doc) => {
+//     if(err){
 //         console.log(err)
 //     }
 
 //     console.log(doc)
 // })
-
-

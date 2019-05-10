@@ -3,101 +3,52 @@ const app = express();
 const expressEdge = require("express-edge");
 const mongoose = require("mongoose");
 const logger = require("morgan");
-const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const fileUpload = require('express-fileupload')
+const fileUpload = require("express-fileupload");
 
+// Controllers
+const createPostController = require("./controllers/createPost");
+const homePageController = require("./controllers/homePage");
+const aboutPageController = require("./controllers/aboutPage");
+const contactPageController = require("./controllers/contactPage");
+const storePostsController = require("./controllers/storePosts");
+const singlePostController = require("./controllers/singlePost");
 
-
+// Database Connections
 mongoose.connect("mongodb://localhost:27017/nodeBlog", {
   useNewUrlParser: true,
   useCreateIndex: true
 });
 
-// Models
-const { Post } = require("./DB/Models");
+// Middleware to check if the body is not empty and file is attached
+const createPostValidation = require("./middlewares/storePosts");
 
+// Middlewares
 app.use(express.static("public"));
 app.use(expressEdge);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(fileUpload());
+app.use("/posts/store", createPostValidation);
 app.set("views", `${__dirname}/views`);
-app.use(fileUpload())
 
-app.get("/", async (req, res) => {
+// Routes
+app.get("/", homePageController);
 
-  const posts = await Post.find({})
+app.get("/about", aboutPageController);
 
-  res.render("index", { 
-    posts
-  });
-});
+app.get("/contact", contactPageController);
 
+app.get("/posts/new", createPostController);
 
+app.post("/posts/store", storePostsController);
 
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-
-
-
-app.get("/contact", (req, res) => {
-  res.render("contact");
-});
-
-
-
-
-app.get("/post/:id", async (req, res) => {
-
-  const post = await Post.findById(req.params.id)
-  res.render("post", { 
-    post
-  });
-});
-
-
-
-
-
-app.get("/posts/new", (req, res) => {
-  res.render("create");
-});
-
-
-
-
-app.post("/posts/store",  (req, res) => {
-
-  const { image } = req.files
-
-
-
-  image.mv(path.resolve(__dirname, `public/posts/${image.name}`), (err) => {  
-    
-    
-    if (err) {
-      return res.status(500).send(err);
-    }
-      Post.create(req.body, (err, post) => {
-        if (err) {
-          console.log(err);
-        }
-        res.redirect("/");
-        
-      });
-    });
-});
-
-
-
+app.get("/post/:id", singlePostController);
 
 const PORT = process.env.PORT || 4000;
-
 
 app.listen(PORT, () => {
   console.log(`The server is running at ${PORT}`);
