@@ -27,8 +27,9 @@ mongoose.connect(databaseURL, {
   useCreateIndex: true
 });
 
-// Middleware to check if the body is not empty and file is attached
+// Validations
 const createPostValidation = require("./middlewares/storePosts");
+const hashPassword = require('./middlewares/hashPassword');
 
 // Middlewares
 app.use(express.static("public"));
@@ -38,7 +39,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(fileUpload());
+
+// Validation middlewares
 app.use("/posts/store", createPostValidation);
+app.use('/users/register', hashPassword)
+
+
+// Engine
 app.set("views", `${__dirname}/views`);
 
 // Static Routes
