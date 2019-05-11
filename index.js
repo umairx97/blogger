@@ -14,9 +14,15 @@ const aboutPageController = require("./controllers/aboutPage");
 const contactPageController = require("./controllers/contactPage");
 const storePostsController = require("./controllers/storePosts");
 const singlePostController = require("./controllers/singlePost");
+const createUserController = require('./controllers/createUser');
+const storeUserController = require('./controllers/storeUser');
+
 
 // Database Connections
-mongoose.connect("mongodb://localhost:27017/nodeBlog", {
+const datbaseName = 'nodeBlog'
+const databaseURL = `mongodb://localhost:27017/${datbaseName}`
+
+mongoose.connect(databaseURL, {
   useNewUrlParser: true,
   useCreateIndex: true
 });
@@ -35,18 +41,28 @@ app.use(fileUpload());
 app.use("/posts/store", createPostValidation);
 app.set("views", `${__dirname}/views`);
 
-// Routes
+// Static Routes
 app.get("/", homePageController);
 
 app.get("/about", aboutPageController);
 
 app.get("/contact", contactPageController);
 
+// Registration page route 
+app.get('/auth/register', createUserController)
+
+// New post apge route
 app.get("/posts/new", createPostController);
 
+// Single Post page route
+app.get("/post/:id", singlePostController);
+
+// Storing posts route
 app.post("/posts/store", storePostsController);
 
-app.get("/post/:id", singlePostController);
+// Storing users route
+app.post("/users/register", storeUserController)
+
 
 const PORT = process.env.PORT || 4000;
 
